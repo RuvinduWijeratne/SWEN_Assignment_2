@@ -1,13 +1,16 @@
 package source;
 
-
-import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board {
+import javax.swing.JPanel;
+
+public class Board extends JPanel {
 	private Square[][] squares;
+	private final static Dimension BOARD_PANEL_DIMENSION = new Dimension (1080,720);
 	
 	/**
 	 * List of Players in each room
@@ -26,110 +29,127 @@ public class Board {
 		put("S",new ArrayList<Player>());
 		}
 	};
+	
+	/**
+	 * Setup the BoardPanel
+	 */
+	public Board(){
+		super(new GridLayout(25,24));
+		setPreferredSize(BOARD_PANEL_DIMENSION);
+	}
 
 	/**
-	 * Initialize the board and all its rooms and paths 
+	 * Initialize the board and all its rooms and paths
 	 */
-	protected void initialiseBoard() {
-		squares = new Square[25][24];
-
+	public void initialiseBoard() {
+		squares = new Square [25][24];
+		
 		/*** KITCHEN ***/
 		for(int row=0; row<6; row++) {
 			for(int col=0; col<6; col++) {
 				squares[row][col] = new Square(new Room("Kitchen","K",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Kitchen Door
-		squares[5][4].getLocation().setDoor();
+		squares[5][4].getLoc().setDoor();
 
 		/*** DINING ***/
 		for(int row=8; row<16; row++) {
 			for(int col=0; col<6; col++) {
 				squares[row][col] = new Square(new Room("Dining","D",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Dining Door 1
-		squares[15][4].getLocation().setDoor();
+		squares[15][4].getLoc().setDoor();
 		//Dining Door 2
-		squares[11][5].getLocation().setDoor();
+		squares[11][5].getLoc().setDoor();
 
 		/*** LOUNGE **/
 		for(int row=19; row<25; row++) {
 			for(int col=0; col<6; col++) {
 				squares[row][col] = new Square(new Room("Lounge","L",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Lounge Door
-		squares[19][5].getLocation().setDoor();
+		squares[19][5].getLoc().setDoor();
 
 		/*** BALL ***/
 		for(int row=0; row<6; row++) {
 			for(int col=9; col<15; col++) {
 				squares[row][col] = new Square(new Room("Ball","B",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Ball Door 1
-		squares[4][9].getLocation().setDoor();
+		squares[4][9].getLoc().setDoor();
 		//Ball Door 2
-		squares[5][11].getLocation().setDoor();
+		squares[5][11].getLoc().setDoor();
 		//Ball Door 3
-		squares[5][13].getLocation().setDoor();
+		squares[5][13].getLoc().setDoor();
 		//Ball Door 4
-		squares[3][14].getLocation().setDoor();
+		squares[3][14].getLoc().setDoor();
 
 		/*** HALL ***/
 		for(int row=19; row<25; row++) {
 			for(int col=9; col<15; col++) {
 				squares[row][col] = new Square(new Room("Hall","H",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Hall Door 1
-		squares[19][11].getLocation().setDoor();
+		squares[19][11].getLoc().setDoor();
 		//Hall Door 2
-		squares[19][12].getLocation().setDoor();
+		squares[19][12].getLoc().setDoor();
 
 
 		/*** Conservatory ***/
 		for(int row=0; row<6; row++) {
 			for(int col=18; col<24; col++) {
 				squares[row][col] = new Square(new Room("Conservatory","C",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Conservatory Door 1
-		squares[5][18].getLocation().setDoor();
+		squares[5][18].getLoc().setDoor();
 
 		/*** Billiard ***/
 		for(int row=8; row<12; row++) {
 			for(int col=18; col<24; col++) {
 				squares[row][col] = new Square(new Room("Billiard","I",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Billiard Door 1
-		squares[9][18].getLocation().setDoor();
+		squares[9][18].getLoc().setDoor();
 
 		/*** Library ***/
 		for(int row=14; row<17; row++) {
 			for(int col=18; col<24; col++) {
 				squares[row][col] = new Square(new Room("Library","Y",new Position(row,col)));
-				//squares[row][col].setPosition(new Position(row,col));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Library Door 1
-		squares[15][18].getLocation().setDoor();
+		squares[15][18].getLoc().setDoor();
 
 		/*** Study Room ***/
 		for(int row=19; row<25; row++) {
 			for(int col=18; col<24; col++) {
 				squares[row][col] = new Square(new Room("Study","S",new Position(row,col)));
+				//this.add(squares[row][col]);
 			}
 		}
 		//Study Door 1
-		squares[21][18].getLocation().setDoor();
+		squares[21][18].getLoc().setDoor();
 		
 		/** RESTRICTED AREA ***/
 		for(int row=9; row<15; row++) {
 			for(int col=10; col<14; col++) {
 				squares[row][col] = new Square("restricted");
+				//this.add(squares[row][col]);
 			}
 		}
 	
@@ -139,35 +159,37 @@ public class Board {
 				Square s = squares[row][col];
 				if(s==null) {
 					squares[row][col] = new Square(new Path("Path",".",new Position(row,col)));
+					//this.add(squares[row][col]);
 				}
 			}
 		}	
-		
 	}
-
+	
 	/**
-	 * Draw the board in a text-based manner
+	 * Draw the squares on the board in a GUI.
 	 */
-	public String drawBoard() {
-		String output = "";
-		Square square;
-		for(int row=0;row<squares.length;row++) {
-			output += (row<10?"0"+row:""+row) + "|";
-			for(int col=0;col<squares[0].length;col++) {
-				square = squares[row][col];
-				output += square.drawSquare();
+	public void drawBoard() {
+		for(int row=0; row<squares.length; row++) {
+			for(int col = 0; col<squares[0].length; col++) {
+				this.add(squares[row][col]);
+				squares[row][col].draw();
 			}
-			output += "\n";
 		}
-		System.out.println(output);
-		return output;
 	}
-
+	
 	/**
 	 * Return the board
 	 * @return
 	 */
-	public Square[][] getGrid() {
+	public Board getBoard() {
+		return this;
+	}
+	
+	/**
+	 * Return the squares in the board
+	 * @return
+	 */
+	public Square[][] getSquares() {
 		return this.squares;
 	}
 	
@@ -201,9 +223,9 @@ public class Board {
 		}
 		
 		//If it reaches this stage, then the path from start to finish is free. So move.
-		this.getGrid()[startingPos.getY()][startingPos.getX()].notOccupied(player);
+		this.getSquares()[startingPos.getY()][startingPos.getX()].notOccupied(player);
 		player.setPos(currentPos);
-		this.getGrid()[currentPos.getY()][currentPos.getX()].setOccupied(player);
+		this.getSquares()[currentPos.getY()][currentPos.getX()].setOccupied(player);
 		return true;
 	}
 		
@@ -232,7 +254,7 @@ public class Board {
 			return null;
 		}
 		
-		Square s = this.getGrid()[newPos.getY()][newPos.getX()];
+		Square s = this.getSquares()[newPos.getY()][newPos.getX()];
 		if(s.isOccupied()) {
 			System.out.printf("Cell occupied by %s. Cannot pass through.\n\n",s.getPlayer().getCharacterName().getName());
 			return null;
@@ -241,19 +263,19 @@ public class Board {
 			System.out.printf("Restricted Area. Cannot pass through.\n\n");
 			return null;
 		}
-		if(!s.getLocation().getName().equals("Path")) {
+		if(!s.getLoc().getName().equals("Path")) {
 			//If it is a door, enter and keep the player in the room
-			if(s.getLocation().isDoor()) {
-				addToRoom(s.getLocation().getSymbol(),player);
+			if(s.getLoc().isDoor()) {
+				addToRoom(s.getLoc().getSymbol(),player);
 				player.timeToSuggest(true);
-				System.out.printf("%s has entered the %s\n\n",player.getCharacterName().getName(),s.getLocation().getName());
+				System.out.printf("%s has entered the %s\n\n",player.getCharacterName().getName(),s.getLoc().getName());
 			}
 			//If it is not a door
 			//	i) The player is already in the room OR
 			//	ii)The player is outside and trying to enter through the wall
 			//So if the player is not in the room already, don't let him enter.
-			else if(!isInRoom(s.getLocation().getSymbol(),player)) {
-				System.out.printf("Cannot enter the %s. No door is present\n\n",s.getLocation().getName());
+			else if(!isInRoom(s.getLoc().getSymbol(),player)) {
+				System.out.printf("Cannot enter the %s. No door is present\n\n",s.getLoc().getName());
 				return null;
 			}
 		}
@@ -295,7 +317,5 @@ public class Board {
 	public void setPlayersInRoom(Map<String, ArrayList<Player>> playersInRoom) {
 		this.playersInRoom = playersInRoom;
 	}
-
-	
 	
 }

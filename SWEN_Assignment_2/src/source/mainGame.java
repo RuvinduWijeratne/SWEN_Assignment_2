@@ -38,7 +38,7 @@ public class mainGame extends JFrame {
 
 	
 	/**
-	 * 
+	 * Initialise the GUI and start the game
 	 */
 	public mainGame() {
 		JFrame gameFrame = new JFrame ("Welcome to Cluedo");
@@ -56,7 +56,7 @@ public class mainGame extends JFrame {
 	}
 	
 	/**
-	 * 
+	 * Create a Menu Bar - NOT COMPLETED
 	 * @return
 	 */
 	private JMenuBar createTableMenuBar() {
@@ -66,7 +66,7 @@ public class mainGame extends JFrame {
 	}
 
 	/**
-	 * 
+	 * Create an option to load a saved file - NOT COMPLETED
 	 * @return
 	 */
 	private JMenu createFieldMenu() {

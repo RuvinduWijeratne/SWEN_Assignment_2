@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel {
 	private Square[][] squares;
-	private final static Dimension BOARD_PANEL_DIMENSION = new Dimension (1080,720);
+	private final static Dimension BOARD_PANEL_DIMENSION = new Dimension (600,400);
 	
 	/**
 	 * List of Players in each room

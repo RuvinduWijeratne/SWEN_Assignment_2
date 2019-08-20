@@ -32,13 +32,13 @@ public class mainGame extends JFrame {
 	private int playerCount;
 	private int maxPlayers;
 
-	private final static Dimension outerFrameDimension = new Dimension (1080,720);
+	private final static Dimension outerFrameDimension = new Dimension (600,400);
 	//private final static Dimension BOARD_PANEL_DIMENSION = new Dimension (1000,700);
 	//private static final Dimension TITLE_PANEL_DIMENSION = new Dimension (10,10);
 
 	
 	/**
-	 * Initialise the GUI and start the game
+	 * Initialize the GUI and start the game
 	 */
 	public mainGame() {
 		JFrame gameFrame = new JFrame ("Welcome to Cluedo");

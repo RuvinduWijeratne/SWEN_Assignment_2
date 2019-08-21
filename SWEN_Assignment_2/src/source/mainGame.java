@@ -72,6 +72,9 @@ public class mainGame extends JFrame {
 	private JMenu createFieldMenu() {
 		final JMenu fileMenu = new JMenu("File");
 		final JMenuItem openPGN = new JMenuItem ("Load Game File");
+		JMenuItem item1 = new JMenuItem("Game Description");
+		JMenuItem item2 = new JMenuItem("Exit");
+		
 		openPGN.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -79,9 +82,19 @@ public class mainGame extends JFrame {
 
 			}
 		});
+		
+		item2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 
 		fileMenu.add(openPGN);
+		fileMenu.add(item1);
+		fileMenu.add(item2);
 		return fileMenu;
+		
 	}
 	
 	

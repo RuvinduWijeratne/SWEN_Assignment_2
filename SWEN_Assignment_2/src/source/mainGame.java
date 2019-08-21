@@ -1,13 +1,20 @@
+package source;
 
-
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class mainGame {	
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+public class mainGame extends JFrame {	
 	/**
 	 * List of Characters in the game
 	 */
@@ -24,9 +31,24 @@ public class mainGame {
 	private Player currentPlayer;
 	private int playerCount;
 	private int maxPlayers;
-	
 
+	private final static Dimension outerFrameDimension = new Dimension (600,400);
+	//private final static Dimension BOARD_PANEL_DIMENSION = new Dimension (1000,700);
+	//private static final Dimension TITLE_PANEL_DIMENSION = new Dimension (10,10);
+
+	
+	/**
+	 * Initialize the GUI and start the game
+	 */
 	public mainGame() {
+		JFrame gameFrame = new JFrame ("Welcome to Cluedo");
+		setLayout(new BorderLayout());
+		final JMenuBar tableMenuBar = createTableMenuBar();
+		setJMenuBar(tableMenuBar);
+		setSize(outerFrameDimension);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		
 		setupBoard();
 		setupCharacters();
 		runGame();
@@ -34,12 +56,56 @@ public class mainGame {
 	}
 	
 	/**
+	 * Create a Menu Bar - NOT COMPLETED
+	 * @return
+	 */
+	private JMenuBar createTableMenuBar() {
+		final JMenuBar tableMenuBar = new JMenuBar(); 
+		tableMenuBar.add(createFieldMenu());
+		return tableMenuBar;
+	}
+
+	/**
+	 * Create an option to load a saved file - NOT COMPLETED
+	 * @return
+	 */
+	private JMenu createFieldMenu() {
+		final JMenu fileMenu = new JMenu("File");
+		final JMenuItem openPGN = new JMenuItem ("Load Game File");
+		JMenuItem item1 = new JMenuItem("Game Description");
+		JMenuItem item2 = new JMenuItem("Exit");
+		
+		openPGN.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Open the file\n");
+
+			}
+		});
+		
+		item2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+
+		fileMenu.add(openPGN);
+		fileMenu.add(item1);
+		fileMenu.add(item2);
+		return fileMenu;
+		
+	}
+	
+	
+	/**
 	 * Setup and initialize the board 
 	 */
 	private void setupBoard() {
-		board = new Board();
+		this.board = new Board();
+		add(board,BorderLayout.CENTER);
 		board.initialiseBoard();
-		
+		board.drawBoard();
 	}
 	
 	/**
@@ -73,6 +139,20 @@ public class mainGame {
 		    if(gameOver) {
 		    	System.out.printf("Game Over. Thanks for playing\n");
 		    }
+	}
+	
+	/**
+	 * Roll the dice and play the game until it is over.
+	 */
+	private void process() {
+		try {
+			int sum = rollDice();
+			getMovementInput(sum);
+			//gameOver=true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -116,25 +196,11 @@ public class mainGame {
 		System.out.printf("\n");
 		for(Player p: Players) {
 			Position pos = p.getPos();
-			board.getGrid()[pos.getY()][pos.getX()].setOccupied(p);
+			board.getSquares()[pos.getY()][pos.getX()].setOccupied(p);
 		}
 		playerCount=1;
 		switchPlayers();
 		this.board.drawBoard();
-	}
-	
-	/**
-	 * Roll the dice and play the game until it is over.
-	 */
-	private void process() {
-		try {
-			int sum = rollDice();
-			getMovementInput(sum);
-			//gameOver=true;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -200,7 +266,7 @@ public class mainGame {
 					String accused = buffer[1];
 					System.out.printf("\n\n%s suggested that %s has committed the murder in the %s using a %s\n\n", 
 							currentPlayer.getCharacterName().getName(),accused,
-							board.getGrid()[currentPlayer.getPos().getY()][currentPlayer.getPos().getX()].getLocation().getName(),
+							board.getSquares()[currentPlayer.getPos().getY()][currentPlayer.getPos().getX()].getLoc().getName(),
 							weapon);
 					completed=true;;
 				}

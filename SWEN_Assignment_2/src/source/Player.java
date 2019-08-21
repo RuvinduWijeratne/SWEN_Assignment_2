@@ -1,3 +1,4 @@
+package source;
 
 
 public class Player{
@@ -14,28 +15,28 @@ public class Player{
 	 * Get the current position of the player
 	 * @return
 	 */
-	protected Position getPos() {
+	public Position getPos() {
 		return pos;
 	}
 	/**
 	 * Get the character represented by the player
 	 * @return
 	 */
-	protected Character getCharacterName() {
+	public Character getCharacterName() {
 		return name;
 	}
 	/**
 	 * Set the new position of the player
 	 * @param newPos
 	 */
-	protected void setPos(Position newPos) {
+	public void setPos(Position newPos) {
 		pos = newPos;
 	}
 	/**
 	 * Indicate to the player that it is his time to suggest or that he has finished his suggestion
 	 * @param 
 	 */
-	protected void timeToSuggest(Boolean answer) {
+	public void timeToSuggest(Boolean answer) {
 		suggest = answer;
 	}
 	/**

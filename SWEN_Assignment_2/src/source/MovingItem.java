@@ -1,3 +1,4 @@
+package source;
 
 
 public abstract class MovingItem {
@@ -17,7 +18,7 @@ public abstract class MovingItem {
 	 * Return the name of the item
 	 * @return
 	 */
-	protected String getName() {
+	public String getName() {
 		return name;
 	}
 	

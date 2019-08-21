@@ -1,25 +1,68 @@
+package source;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
 
-public class Square {
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+
+public class Square extends JPanel{
 	private Location loc;
 	private Player player;
 	private boolean occupied=false;
 	private boolean restricted=false;
+	
+	private int tileID;
+	private static final Dimension TITLE_PANEL_DIMENSION = new Dimension (10,10);
 	
 	/**
 	 * Constructor to create a square that holds a location
 	 * @param l
 	 */
 	public Square(Location l) {
+		super(new GridBagLayout());
 		this.loc = l;
+		setPreferredSize(TITLE_PANEL_DIMENSION);
+		validate();	
 	}
+	
 	/**
 	 * Constructor to create a square that is restricted
 	 * @param s
 	 */
 	public Square(String s) {
+		super(new GridBagLayout());
 		this.restricted = true;
+		setPreferredSize(TITLE_PANEL_DIMENSION);
+		validate();
+		
 	}
+	
+	/**
+	 * 
+	 */
+	public void draw() {
+		setBorder(BorderFactory.createLineBorder(Color.black));
+		if(restricted) {
+			//return "X";
+			setBackground(Color.DARK_GRAY);
+			return;
+		}
+		if(occupied) {
+			setBackground(Color.RED);
+		}
+		else {
+			if(loc.isDoor()) {
+				setBackground(Color.WHITE);
+			}
+			else {
+				//return loc.getSymbol();
+				setBackground(loc.getColor());
+			}
+		}
+	}
+	
 	/**
 	 * Return if the current square is occupied by another object
 	 * @return
@@ -54,7 +97,7 @@ public class Square {
 	 * Return the location of the square
 	 * @return
 	 */
-	public Location getLocation() {
+	public Location getLoc() {
 		return loc;
 	}
 	/**
@@ -64,28 +107,5 @@ public class Square {
 	public Player getPlayer() {
 		return player;
 	}
-	/**
-	 * Return a string with the name of the object occupying the square
-	 * @return
-	 */
-	public String drawSquare() {
-		if(restricted) {
-			return "X";
-		}
-		if(occupied) {
-			return player.getCharacterName().getSymbol();
-		}
-		else {
-			if(loc.isDoor()) {
-				return "^";
-			}
-			else {
-				return loc.getSymbol();
-			}
-		}
-	}
 
-	
-
-	
 }
